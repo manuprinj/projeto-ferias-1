@@ -18,33 +18,34 @@ import java.util.List;
 
 public class Main {
 
-    public static int totalFuncionario = 0;
     public static List<Colaborador> colaboradores = new ArrayList<>();
 
     public static void menu() {
-        System.out.println("Seja bem-vindo ao Sistema Gerencial TechDive");
-        System.out.println("1 - Adicionar Funcionário");
-        System.out.println("2 - Ver detalhes de um funcionário");
-        System.out.println("3 - Demitir funcionário");
-        System.out.println("4 - Atualizar informações de um funcionário");
-        System.out.println("5 - Listar todos os funcionários");
-        System.out.println("6 - Listar somente os funcionários trabalhando");
-        System.out.println("7 - Listar somente os funcionários demitidos");
-        System.out.println("8 - Sair");
-        int tipoOperacao = getInt();
+        int tipoOperacao = 0;
+        while (tipoOperacao != 8) {
+            System.out.println("Seja bem-vindo ao Sistema Gerencial TechDive");
+            System.out.println("1 - Adicionar Funcionário");
+            System.out.println("2 - Ver detalhes de um funcionário");
+            System.out.println("3 - Demitir funcionário");
+            System.out.println("4 - Atualizar informações de um funcionário");
+            System.out.println("5 - Listar todos os funcionários");
+            System.out.println("6 - Listar somente os funcionários trabalhando");
+            System.out.println("7 - Listar somente os funcionários demitidos");
+            System.out.println("8 - Sair");
+            tipoOperacao = getInt();
 
-        if (tipoOperacao < 1 || tipoOperacao > 8) {
-            System.out.println("Digite uma opção válida!!");
-            return;
+            if (tipoOperacao < 1 || tipoOperacao > 8) {
+                System.out.println("Digite uma opção válida!!");
+                return;
+            }
+            if (tipoOperacao == 1) adicionarFuncionario();
+            if (tipoOperacao == 2) detalhesColaborador();
+            if (tipoOperacao == 3) demitirFuncionario();
+            if (tipoOperacao == 4) atualizarInformacoes();
+            if (tipoOperacao == 5) listarTodosColaboradores();
+            if (tipoOperacao == 6) listarTodosColaboradoresAtivos();
+            if (tipoOperacao == 7) listarTodosColaboradoresIntivos();
         }
-        if (tipoOperacao == 1) adicionarFuncionario();
-        if (tipoOperacao == 2) detalhesColaborador();
-        if (tipoOperacao == 3) demitirFuncionario();
-        if (tipoOperacao == 4) atualizarInformacoes();
-        if (tipoOperacao == 5) listarTodosColaboradores();
-        if (tipoOperacao == 6) listarTodosColaboradoresAtivos();
-        if (tipoOperacao == 7) listarTodosColaboradoresIntivos();
-        if (tipoOperacao == 8) ;
     }
 
     public static void adicionarFuncionario() {
@@ -89,7 +90,6 @@ public class Main {
                 GerenteGeral colaborador = new GerenteGeral(nome, cpf, matricula, telefone, dataAdmissao);
                 colaboradores.add(colaborador);
             }
-            totalFuncionario++;
         }
     }
 
@@ -158,8 +158,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        while (true) {
-            menu();
-        }
+        menu();
     }
 }
