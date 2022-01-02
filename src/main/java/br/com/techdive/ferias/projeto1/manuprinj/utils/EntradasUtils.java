@@ -46,7 +46,7 @@ public class EntradasUtils {
 
     public static String getCPF(String mensagem) {
         String cpf = "";
-        while (cpf.isBlank() && !CpfUtils.isCPFValido(cpf)) {
+        while (!CpfUtils.isCPFValido(cpf)) {
             System.out.println(mensagem);
             cpf = SC.nextLine();
         }
