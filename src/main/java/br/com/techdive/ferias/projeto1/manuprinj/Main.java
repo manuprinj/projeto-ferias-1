@@ -55,13 +55,13 @@ public class Main {
             adicionarFuncionario();
         } else {
 
-            String matricula = getMatricula("Digite a matrícula:");
+            String matricula = getMatricula("Digite a matrícula (5 números): ");
 
             String nome = getString("Digite o nome do funcionário:");
 
             String cpf = getCPF("Digite o CPF do funcionário:");
 
-            String telefone = getTelefone("Digite o telefone do funcionário:");
+            String telefone = getTelefone("Digite o telefone celular do funcionário (Apenas números): ");
 
             if (cargoFuncionario == 1) {
                 Colaborador colaborador = new Colaborador(nome, cpf, matricula, telefone);

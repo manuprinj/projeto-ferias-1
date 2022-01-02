@@ -53,7 +53,7 @@ public class EntradasUtils {
 
     public static String getMatricula(String mensagem) {
         String matricula = "";
-        while (matricula.isBlank() && !MatriculaUtils.isMatriculaValida(matricula)) {
+        while (!MatriculaUtils.isMatriculaValida(matricula)) {
             System.out.println(mensagem);
             matricula = SC.nextLine();
         }
@@ -62,7 +62,7 @@ public class EntradasUtils {
 
     public static String getTelefone(String mensagem) {
         String telefone = "";
-        while (telefone.isBlank() && !TelefoneUtils.isTelefoneValido(telefone)) {
+        while (!TelefoneUtils.isTelefoneValido(telefone)) {
             System.out.println(mensagem);
             telefone = SC.nextLine();
         }
