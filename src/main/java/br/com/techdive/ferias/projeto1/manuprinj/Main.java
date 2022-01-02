@@ -2,19 +2,23 @@ package br.com.techdive.ferias.projeto1.manuprinj;
 
 
 import static br.com.techdive.ferias.projeto1.manuprinj.Listas.listarTodosColaboradores;
+import static br.com.techdive.ferias.projeto1.manuprinj.Listas.listarTodosColaboradoresAtivos;
+import static br.com.techdive.ferias.projeto1.manuprinj.Listas.listarTodosColaboradoresIntivos;
 import static br.com.techdive.ferias.projeto1.manuprinj.utils.EntradasUtils.getCPF;
+import static br.com.techdive.ferias.projeto1.manuprinj.utils.EntradasUtils.getData;
 import static br.com.techdive.ferias.projeto1.manuprinj.utils.EntradasUtils.getInt;
 import static br.com.techdive.ferias.projeto1.manuprinj.utils.EntradasUtils.getMatricula;
 import static br.com.techdive.ferias.projeto1.manuprinj.utils.EntradasUtils.getString;
 import static br.com.techdive.ferias.projeto1.manuprinj.utils.EntradasUtils.getTelefone;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Main {
 
-    public static int totalFuncionario=0;
+    public static int totalFuncionario = 0;
     public static List<Colaborador> colaboradores = new ArrayList<>();
 
     public static void menu() {
@@ -35,11 +39,11 @@ public class Main {
         }
         if (tipoOperacao == 1) adicionarFuncionario();
         if (tipoOperacao == 2) detalhesColaborador();
-        if (tipoOperacao == 3) ;
+        if (tipoOperacao == 3) demitirFuncionario();
         if (tipoOperacao == 4) atualizarInformacoes();
         if (tipoOperacao == 5) listarTodosColaboradores();
-        if (tipoOperacao == 6) ;
-        if (tipoOperacao == 7) ;
+        if (tipoOperacao == 6) listarTodosColaboradoresAtivos();
+        if (tipoOperacao == 7) listarTodosColaboradoresIntivos();
         if (tipoOperacao == 8) ;
     }
 
@@ -48,9 +52,10 @@ public class Main {
         System.out.println("1 - Colaborador");
         System.out.println("2 - Líder Técnico");
         System.out.println("3 - Gerente de Departamento");
+        System.out.println("4 - Gerente Geral");
         int cargoFuncionario = getInt();
 
-        if (cargoFuncionario < 1 || cargoFuncionario > 3) {
+        if (cargoFuncionario < 1 || cargoFuncionario > 4) {
             System.out.println("Digite uma opção válida!!");
             adicionarFuncionario();
         } else {
@@ -63,18 +68,25 @@ public class Main {
 
             String telefone = getTelefone("Digite o telefone celular do funcionário (Apenas números): ");
 
+            LocalDate dataAdmissao = getData("Digite a data de admissão do funcionário (dd/MM/yyyy): ");
+
             if (cargoFuncionario == 1) {
-                Colaborador colaborador = new Colaborador(nome, cpf, matricula, telefone);
+                Colaborador colaborador = new Colaborador(nome, cpf, matricula, telefone, dataAdmissao);
                 colaboradores.add(colaborador);
             }
 
             if (cargoFuncionario == 2) {
-                LiderTecnico colaborador = new LiderTecnico(nome, cpf, matricula, telefone);
+                LiderTecnico colaborador = new LiderTecnico(nome, cpf, matricula, telefone, dataAdmissao);
                 colaboradores.add(colaborador);
             }
 
             if (cargoFuncionario == 3) {
-                GerenteDepartamento colaborador = new GerenteDepartamento(nome, cpf, matricula, telefone);
+                GerenteDepartamento colaborador = new GerenteDepartamento(nome, cpf, matricula, telefone, dataAdmissao);
+                colaboradores.add(colaborador);
+            }
+
+            if (cargoFuncionario == 4) {
+                GerenteGeral colaborador = new GerenteGeral(nome, cpf, matricula, telefone, dataAdmissao);
                 colaboradores.add(colaborador);
             }
             totalFuncionario++;
@@ -82,10 +94,10 @@ public class Main {
     }
 
     public static Colaborador validacaoColaborador() {
-        String numMatricula = getString("Digite o número da matrícula: ");
+        String numMatricula = getString("Digite o número da sua matrícula: ");
 
         for (Colaborador colaborador : colaboradores) {
-            if(colaborador.getMatricula().equals(numMatricula)) return colaborador;
+            if (colaborador.getMatricula().equals(numMatricula)) return colaborador;
         }
 
         System.out.println("Colaborador não encontrado!");
@@ -96,8 +108,7 @@ public class Main {
         Colaborador colaborador = validacaoColaborador();
         if (colaborador == null) return;
 
-        if (!(colaborador instanceof GerenteDepartamento)
-                && !(colaborador instanceof GerenteGeral)
+        if (!(colaborador instanceof GerenteDepartamento) && !(colaborador instanceof GerenteGeral)
                 && !(colaborador instanceof LiderTecnico)) {
             System.out.println("Sem permissão!!");
             return;
@@ -111,13 +122,43 @@ public class Main {
         }
     }
 
+    public static void demitirFuncionario() {
+        Colaborador colaborador = validacaoColaborador();
+        if (colaborador == null) return;
+
+        if (!(colaborador instanceof GerenteGeral)) {
+            System.out.println("Sem permissão!!");
+            return;
+        } else {
+            String matriculaFuncionario = getString("Digite a matrícula do funcionário: ");
+            for (Colaborador colaborador1 : colaboradores) {
+                if (colaborador1.getMatricula().equals(matriculaFuncionario)) {
+                    colaborador1.demitir();
+                }
+            }
+        }
+    }
+
     public static void atualizarInformacoes() {
         Colaborador colaborador = validacaoColaborador();
-        if (colaborador != null) colaborador.alterarDadosCadastrais();
+        if (colaborador == null) return;
+
+        if (!(colaborador instanceof GerenteDepartamento) && !(colaborador instanceof GerenteGeral)
+                && !(colaborador instanceof LiderTecnico)) {
+            System.out.println("Sem permissão!!");
+            return;
+        } else {
+            String matriculaFuncionario = getString("Digite a matrícula do funcionário: ");
+            for (Colaborador colaborador1 : colaboradores) {
+                if (colaborador1.getMatricula().equals(matriculaFuncionario)) {
+                    colaborador1.alterarDadosCadastrais();
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
-        while (true){
+        while (true) {
             menu();
         }
     }

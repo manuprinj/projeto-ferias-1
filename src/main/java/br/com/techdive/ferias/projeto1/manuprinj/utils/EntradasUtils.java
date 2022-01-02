@@ -1,6 +1,9 @@
 package br.com.techdive.ferias.projeto1.manuprinj.utils;
 
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 
@@ -67,5 +70,16 @@ public class EntradasUtils {
             telefone = SC.nextLine();
         }
         return telefone;
+    }
+
+    public static LocalDate getData(String mensagem) {
+        while (true) {
+            System.out.println(mensagem);
+            try {
+                return DataUtils.parse(SC.nextLine());
+            } catch (DateTimeParseException e) {
+                System.out.println("Data inválida, digite a data no formato dd/MM/yyyy");
+            }
+        }
     }
 }
