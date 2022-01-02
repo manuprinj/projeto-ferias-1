@@ -4,7 +4,7 @@ package br.com.techdive.ferias.projeto1.manuprinj;
 import java.time.LocalDate;
 
 
-public class GerenteGeral extends Colaborador{
+public class GerenteGeral extends Colaborador implements PodeDemitir {
 
     public GerenteGeral(String nome, String cpf, String matricula, String telefone, LocalDate dataAdmissao) {
         super(nome, cpf, matricula, telefone, dataAdmissao);

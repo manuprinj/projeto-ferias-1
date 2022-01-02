@@ -126,7 +126,7 @@ public class Main {
         Colaborador colaborador = validacaoColaborador();
         if (colaborador == null) return;
 
-        if (!(colaborador instanceof GerenteGeral)) {
+        if (!(colaborador instanceof PodeDemitir)) {
             System.out.println("Sem permissão!!");
             return;
         } else {
